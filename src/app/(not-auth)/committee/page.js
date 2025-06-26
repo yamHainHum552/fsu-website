@@ -31,7 +31,6 @@ const Team = () => {
         })
         .then((data) => {
           setCommittee(data);
-          console.log("Data here of committee: ", data);
         })
         .catch((err) => {
           console.log("An error occured. Please check your code", err);

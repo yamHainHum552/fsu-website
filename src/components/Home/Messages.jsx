@@ -1,10 +1,10 @@
 "use client";
 
 import { messages } from "@/data/data";
-import { AnimatePresence, motion, useAnimate, useInView } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 
 const montserrat = Montserrat({
   weight: ["100", "300", "500", "600", "700", "800"],
@@ -13,58 +13,56 @@ const montserrat = Montserrat({
 
 const Messages = () => {
   return (
-    <div
-      className={`md:w-[80%] mx-auto w-full h-fit mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10 ${montserrat.className} text-white`}
-    >
-      <AnimatePresence>
-        {messages?.map((message, index) => (
-          <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="relative w-full h-full rounded-xl p-8 flex flex-col gap-4 overflow-hidden justify-between opacity-0 "
-            key={index}
-          >
-            <div className="w-full h-full absolute left-0 top-0 bg-gradient-radial from-[#e08c3e] to-[#ee843e] shadow-lg  -z-[10]"></div>
-            <div className="w-full h-full flex flex-col gap-4 ">
-              <span className="text-[22px] md:text-[26px] lg:text-[30px]  font-bold text-secondary-800 ">
-                Message From {message.position}
-              </span>
-              <p
-                className={`${montserrat.className} font-sans text-[14px] md:text-[15px] lg:text-[16px] max:h-[24rem] min-h-fit `}
-              >
-                {message.content}
-              </p>
-            </div>
-            <div className="w-full flex gap-12 md:gap-16 ">
-              <div className="flex flex-1 items-center justify-center ">
-                <Image
-                  alt="FSU committee"
-                  width={10}
-                  height={10}
-                  src={message && message.image}
-                  className="w-full rounded-lg"
-                  unoptimized
-                />
+    <div className={`w-full md:w-[85%] mx-auto mt-12 ${montserrat.className}`}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <AnimatePresence>
+          {messages?.map((message, index) => (
+            <motion.div
+              key={index}
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              viewport={{ once: true }}
+              className={`
+                relative w-full h-full p-8 rounded-2xl overflow-hidden shadow-lg
+                bg-gradient-radial from-[#e08c3e] to-[#ee843e] text-white 
+                flex flex-col justify-between gap-6 
+                ${index === 2 ? "lg:col-span-2 lg:mx-auto lg:w-1/2" : ""}
+              `}
+            >
+              <div className="flex flex-col gap-4">
+                <h2 className="text-lg md:text-xl lg:text-2xl font-semibold uppercase tracking-wide">
+                  Message from {message.position}
+                </h2>
+                <p className="text-sm md:text-base lg:text-[17px] leading-relaxed text-justify">
+                  {message.content}
+                </p>
               </div>
-              <div className="flex flex-col justify-center flex-[2]  ">
-                <span className="text-[18px] md:text-[24px] font-bold ">
-                  {message.name}
-                </span>
-                <span
-                  className={`text-neutral-200 text-[12px] md:text-[17px] ${montserrat.className}`}
-                >
-                  {message.faculty}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </AnimatePresence>
 
-      {/* <div className="w-full h-[30rem] border-2 "></div>
-      <div className="w-full h-[30rem] border-2 "></div> */}
+              <div className="mt-4 flex items-center gap-6 md:gap-8">
+                <div className="w-[80px] h-[80px] rounded-lg overflow-hidden border-2 border-white">
+                  <Image
+                    alt={`Photo of ${message.name}`}
+                    src={message.image || "/default.jpg"}
+                    width={80}
+                    height={80}
+                    className="object-cover w-full h-full"
+                    unoptimized
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <span className="text-lg md:text-xl font-bold">
+                    {message.name}
+                  </span>
+                  <span className="text-sm md:text-base text-white/90">
+                    {message.faculty}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

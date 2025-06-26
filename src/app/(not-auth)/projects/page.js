@@ -60,7 +60,6 @@ const Projects = () => {
       setLoading(false);
     }
   }, [projects]);
-  console.log(projects);
 
   const handlePageClick = (pageNumber) => {
     router.push(`/projects/page/${pageNumber}`);

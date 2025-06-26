@@ -17,6 +17,15 @@ export const messages = [
     position: "FSU Secretary",
     faculty: "Civil Engineering",
   },
+  {
+    id: 3,
+    content:
+      "Dear Fellow Students, I hope you are doing well. As your Free Student Union Treasurer, I would like to express my commitment to transparency, accountability, and financial integrity in all FSU-related matters. Our goal is to ensure that every resource is utilized responsibly and for the betterment of the student community. I encourage you to stay informed, take part in our initiatives, and feel free to approach us with any concerns or suggestions. Together, we can make a meaningful impact on our campus.",
+    image: "/images/committee/yam.png", // Update the path if different
+    name: "Yam Nath Guragain",
+    position: "FSU Treasurer",
+    faculty: "Computer Engineering",
+  },
 ];
 
 export const notices = [
