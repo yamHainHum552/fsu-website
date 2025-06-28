@@ -271,7 +271,7 @@ const Footer = () => {
                 Telephone:
               </span>
               <a
-                href="tel:9812345678"
+                href="tel:9867355869"
                 className="hover:text-secondary-800 text-left transition-colors"
               >
                 9867355869
@@ -353,7 +353,7 @@ const Footer = () => {
           </p>
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
             <Link
-              href={`https://www.facebook.com/profile.php?id=61576373201271`}
+              href={`https://www.facebook.com/fsuerc/`}
               className="text-white hover:text-secondary-800 shadow-lg duration-500"
             >
               <svg
