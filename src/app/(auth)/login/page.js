@@ -15,47 +15,28 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // const handleLoginClick = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/login`,
-  //       {
-  //         method: "POST",
-  //         credentials: "include",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(details),
-  //       }
-  //     ).then((result) => {
-  //       return result.json();
-  //     });
-  //     if (response.status === "success") {
-  //       router.push("/admin");
-  //     } else {
-  //       setMessage(response.message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleLogin = async () => {
-    const response = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(details),
-    });
-    const data = await response.json();
+    try {
+      setLoading(true);
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(details),
+      });
 
-    if (response.ok) {
-      document.cookie = `token=${data.token}; path=/;`;
-      router.push("/admin");
-    } else {
-      alert(data.error);
+      const data = await response.json();
+
+      if (response.ok) {
+        document.cookie = `token=${data.token}; path=/;`;
+        router.push("/admin");
+      } else {
+        alert(data.error || "Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Something went wrong. Please check your network and try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
