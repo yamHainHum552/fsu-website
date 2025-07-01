@@ -1,13 +1,14 @@
-// middleware.ts
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET);
 
+const publicApiRoutes = ["/api/admin/login", "/api/admin/register"]; // Add more public API routes here
+
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
+  const method = req.method;
 
-  // Only apply protection to specified paths
   const protectedPaths = ["/admin", "/api"];
   const isProtected = protectedPaths.some((path) => pathname.startsWith(path));
 
@@ -15,17 +16,23 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
-  // Try to get token from cookie
+  // ✅ Allow unauthenticated access to public API routes
+  if (publicApiRoutes.includes(pathname)) {
+    return NextResponse.next();
+  }
+
+  // ✅ Allow unauthenticated GET requests to /api/*
+  if (pathname.startsWith("/api") && method === "GET") {
+    return NextResponse.next();
+  }
+
   let token = req.cookies.get("token")?.value;
 
-  // If not in cookie, check Authorization header (Bearer token)
   if (!token && req.headers.get("authorization")?.startsWith("Bearer ")) {
     token = req.headers.get("authorization")?.replace("Bearer ", "");
   }
 
   if (!token) {
-    console.log("🔐 No token provided");
-
     if (pathname.startsWith("/api")) {
       return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
@@ -38,7 +45,6 @@ export async function middleware(req) {
 
   try {
     await jwtVerify(token, secret);
-
     return NextResponse.next();
   } catch (error) {
     if (pathname.startsWith("/api")) {
